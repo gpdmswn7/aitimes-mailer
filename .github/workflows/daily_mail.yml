@@ -1,0 +1,29 @@
+name: Daily AI Times Mailer
+
+on:
+  schedule:
+    # 서울(KST, UTC+9) 22:50 = UTC 13:15
+    - cron: '15 13 * * *'
+  workflow_dispatch:   # 수동 테스트용 버튼
+
+jobs:
+  send-mail:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 파이썬 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 라이브러리 설치
+        run: pip install -r requirements.txt
+
+      - name: 크롤링 및 이메일 발송
+        env:
+          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+          EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+        run: python mailer.py
