@@ -70,6 +70,12 @@ if __name__ == "__main__":
     app_password = os.environ["EMAIL_APP_PASSWORD"]
     recipient = os.environ["RECIPIENT_EMAIL"]
 
+    # ── 임시 디버그 코드 (문제 해결 후 반드시 삭제) ──
+    print(f"[디버그] sender 길이: {len(sender)}, 값: {sender!r}")
+    print(f"[디버그] app_password 길이: {len(app_password)}")
+    print(f"[디버그] app_password repr: {app_password!r}")
+    # ────────────────────────────────────────────
+    
     articles = get_popular_articles(top_n=5)
     if not articles:
         raise RuntimeError("기사를 가져오지 못했습니다. 사이트 구조가 바뀌었는지 확인하세요.")
